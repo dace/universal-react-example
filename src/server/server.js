@@ -1,14 +1,14 @@
 import express from "express";
 import React from "react";
-import {match, RoutingContext} from "react-router";
-import {renderToString} from 'react-dom/server';
+import { match, RoutingContext } from "react-router";
+import { renderToString } from 'react-dom/server';
 const app = express();
 
 // set up Jade
 app.set('views', './views');
 app.set('view engine', 'jade');
 
-import routes from "../shared/routes";
+import routes from "../shared/routes/routes";
 
 app.get('/*', (req, res) => {
   match({
@@ -21,7 +21,6 @@ app.get('/*', (req, res) => {
       res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       const markup = renderToString(<RoutingContext {...renderProps} />);
-      console.log(markup);
       res.render('index', { content: markup });
       res.status(200).send();
     } else {
